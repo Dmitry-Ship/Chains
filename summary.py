@@ -14,16 +14,13 @@ planner = (
 )
 
 arguments_for = (
-    ChatPromptTemplate.from_template(
-        "List the pros or positive aspects of {base_response}"
-    )
+    ChatPromptTemplate.from_template("List the pros or positive aspects of {base_response}")
     | llm
     | output_parser
 )
+
 arguments_against = (
-    ChatPromptTemplate.from_template(
-        "List the cons or negative aspects of {base_response}"
-    )
+    ChatPromptTemplate.from_template("List the cons or negative aspects of {base_response}")
     | llm
     | output_parser
 )

@@ -1,8 +1,9 @@
 from summary import pros_cons_generator
 from coder import coder
-from movie_idea import movie_generator
+from facts_extractor import facts_chain
 from search import searcher
 from suggester import suggester
+from story import img2speach
 
 article = """
 Speculative evolution is a subgenre of science fiction and an artistic movement focused on hypothetical scenarios in the evolution of life, and a significant form of fictional biology.[1] It is also known as speculative biology[2] and it is referred to as speculative zoology[3] in regards to hypothetical animals.[1] Works incorporating speculative evolution may have entirely conceptual species that evolve on a planet other than Earth, or they may be an alternate history focused on an alternate evolution of terrestrial life. Speculative evolution is often considered hard science fiction because of its strong connection to and basis in science, particularly biology.
@@ -15,9 +16,10 @@ The modern speculative evolution movement is generally agreed to have begun with
 # Research by Alexander Diel and Michael Lewis of Cardiff University has attributed the unsettling nature of liminal spaces to the phenomenon of the uncanny valley. The term, which is usually applied to humanoids whose inexact resemblance to humans elicits feelings of unease, may explain similar responses to liminal imagery. In this case, physical places that appear familiar but subtly deviate from reality create the sense of eeriness typical of liminal spaces.[1]
 # Peter Heft of Pulse: the Journal of Science and Culture further explores this sense of eeriness. Drawing on the works of Mark Fisher, Heft explains such eeriness may be felt when an individual views a situation in a different context to what they expect. For example, a schoolhouse, expected to be a busy amalgamation of teachers and students, becomes unsettling when depicted as unnaturally empty. This "failure of presence" was considered by Fisher to be one of the hallmarks of the aesthetic experience of eeriness.[2]
 # """
-# movie_generator.invoke({"text_input": article})
-
+# facts_chain.invoke({"text_input": article})
 # pros_cons_generator.invoke({"input": "white board interview"})
 # coder.invoke({"input": "is bird a palindrome?"})
-# print(searcher.invoke({"input": "I'd like to figure out what games are tonight in NYC"}))
-suggester.invoke('What are your favorite movie genres?')
+# searcher.invoke({"input": "I'd like to figure out what games are tonight in NYC"})
+# suggester.invoke('What are your favorite movie genres?')
+
+img2speach('https://images.photowall.com/products/69237/lion-close-up.jpg?h=699&q=85')
