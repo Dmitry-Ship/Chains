@@ -12,7 +12,7 @@ def img2text(url):
 
     return image_recognizer(url)[0]['generated_text']
 
-def tex2speach(text):
+def tex2speech(text):
     synthesiser = pipeline("text-to-speech", "microsoft/speecht5_tts")
 
     embeddings_dataset = load_dataset("Matthijs/cmu-arctic-xvectors", split="validation")
@@ -36,9 +36,9 @@ story_chain = prompt_template | llm | output_parser
     
 
 
-def img2speach(url):
+def img2speech(url):
     story = story_chain.invoke({
         "context": img2text(url)
     })
 
-    tex2speach(story)
+    tex2speech(story)
