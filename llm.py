@@ -3,12 +3,13 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.llms import LlamaCpp, Ollama 
 from langchain.chat_models import ChatOllama
 from langchain.embeddings import LlamaCppEmbeddings, OllamaEmbeddings
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 MODEL_PATH = os.environ.get('MODEL_PATH')
+
 # llm = LlamaCpp(
 #     model_path=MODEL_PATH,
 #     n_gpu_layers=1,
@@ -19,12 +20,7 @@ MODEL_PATH = os.environ.get('MODEL_PATH')
 #     temperature=0.0,
 #     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
 #     verbose=True,
-#     # interactive=True,
-#     # instruct=True,
-#     repeat_penalty=1.1,
-#     model_kwargs={"color": True}
-#     # reversedPrompt
-#     # stop=["Human:"]
+#     model_kwargs={'instruct': True, "interactive": True}
 # )
 
 OLLAMA_MODEL = os.environ.get('OLLAMA_MODEL')

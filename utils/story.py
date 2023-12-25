@@ -21,11 +21,14 @@ def tex2speech(text):
 
     speech = synthesiser(text, forward_params={"speaker_embeddings": speaker_embedding})
 
-    sf.write("speech.wav", speech["audio"], samplerate=speech["sampling_rate"])
+    path = "speech.wav"
+    sf.write(path, speech["audio"], samplerate=speech["sampling_rate"])
+
+    return f'wrote speech to file {path}'
 
 prompt_template = PromptTemplate.from_template("""
     You are a story teller.
-    Create a story based on a simple narrative. No longer, than 20 words.
+    Create a story based on a simple narrative. No longer, than 40 words.
                             
     CONTEXT: {context}
     STORY:
@@ -33,12 +36,3 @@ prompt_template = PromptTemplate.from_template("""
 output_parser = StrOutputParser()
 
 story_chain = prompt_template | llm | output_parser
-    
-
-
-def img2speech(url):
-    story = story_chain.invoke({
-        "context": img2text(url)
-    })
-
-    tex2speech(story)

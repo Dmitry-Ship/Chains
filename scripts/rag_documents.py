@@ -1,4 +1,4 @@
-from rag import save_documents_to_db
+from utils.rag import save_documents_to_db
 import sys
 
 if __name__ == "__main__":

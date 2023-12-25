@@ -1,4 +1,3 @@
-import shutil
 from langchain.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
@@ -9,6 +8,7 @@ from llm import llm
 from langchain.embeddings import HuggingFaceEmbeddings
 from operator import itemgetter
 from dotenv import load_dotenv
+import shutil
 import os
 
 load_dotenv()
