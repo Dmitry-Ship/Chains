@@ -2,10 +2,6 @@ import torch
 from transformers import pipeline
 from datasets import load_dataset
 import soundfile as sf
-from langchain.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from llm import llm
-
 
 def img2text(url):
     image_recognizer = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
@@ -25,14 +21,3 @@ def tex2speech(text):
     sf.write(path, speech["audio"], samplerate=speech["sampling_rate"])
 
     return f'wrote speech to file {path}'
-
-prompt_template = PromptTemplate.from_template("""
-    You are a story teller.
-    Create a story based on a simple narrative. No longer, than 40 words.
-                            
-    CONTEXT: {context}
-    STORY:
-""")
-output_parser = StrOutputParser()
-
-story_chain = prompt_template | llm | output_parser

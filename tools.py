@@ -1,15 +1,27 @@
 import requests
-from llm import llm
 from bs4 import BeautifulSoup
 from langchain.tools import Tool, DuckDuckGoSearchResults, WikipediaQueryRun
 from langchain.utilities import WikipediaAPIWrapper
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from utils.story import story_chain, tex2speech, img2text
-from utils.pros_and_cons import pros_cons_generator
-from utils.rag import rag_chain
+from utils.story import tex2speech, img2text
+from utils.rag import create_rag_chain
 
 output_parser = StrOutputParser()
+
+
+def create_llm_tool(llm):
+    llm_chain = (
+        PromptTemplate.from_template("{input}")
+        | llm
+        | output_parser
+    )
+
+    return Tool(
+        func=lambda x: llm_chain.invoke({"input": x}),
+        name="LLM",
+        description="use this for general purpose queries and logic"
+    )
 
 ddg_search = DuckDuckGoSearchResults()
 
@@ -27,58 +39,17 @@ web_fetcher = Tool(
     description="Fetches the content of a web page"
 )
 
-summarize_chain = (
-    PromptTemplate.from_template("Summarize the following content: {content}") 
-    | llm 
-    | output_parser
-)
-
-summarizer = Tool(
-    func=lambda x: summarize_chain.invoke({"content": x}),
-    name="Summarizer",
-    description="Summarizes big texts"
-)
-
-facts_chain = (
-    PromptTemplate.from_template("""
-        Extract the key facts out of this text. Don't include opinions. Give each fact a number and keep them short sentences.
-        text: {text_input}
-        facts: 
-    """)   
-    | llm 
-    | output_parser
-)
-
-facts_extractor = Tool(
-    func=lambda x: facts_chain.invoke({"text_input": x}),
-    name="FactsExtractor",
-    description="Extracts facts from a text"
-)
-
-pros_cons_generator = Tool(
-    func=lambda x: pros_cons_generator.invoke({"input": x}),
-    name="ProsCons",
-    description="Generates pros and cons of a given topic"
-)
-
-story_teller = Tool(
-    func=lambda x: story_chain.invoke({"context": x}),
-    name="StoryTeller",
-    description="Creates a story based on short context"
-)
-
 speaker = Tool(
     func=tex2speech,
     name="Speaker",
-    description="Transforms text to speech and saves it to a file"
+    description="Use it to save text to an audio file. The input to this tool should be the full text."
 )
 
 image_describer = Tool(
     func=img2text,
     name="ImageDescriber",
-    description="Describes an image from URL"
+    description="Use it to create describes an image from URL"
 )
-
 
 wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
 wikipedia_search = Tool(
@@ -87,11 +58,29 @@ wikipedia_search = Tool(
     description="Useful when users request biographies or historical moments."
 )
 
-children_of_time_retriever = Tool(
-    func=lambda x: rag_chain.invoke({
-        "question": x, 
-        "system_message": "Act like Senkovi" 
-    }),
-    name="Children Of Time",
-    description="Use for information related to Children of Time"
-)
+def create_knowledge_base(llm):
+    return Tool(
+        func=lambda x, y: create_rag_chain(llm).invoke({
+            "question": x, 
+            "system_message": y 
+        }),
+        name="Children of Ruin Knowledge Base",
+        description="Use it for queries related to Children of Ruin."
+    )
+
+
+def create_pm(llm):
+    pm_chain = (
+        PromptTemplate.from_template("""
+        You are a project manager. You will turn a product idea into detailed technical requirements for a developer.
+        idea: {idea}
+        requirements:
+        """)
+        | llm
+        | output_parser
+    )
+    return Tool(
+        func=lambda x: pm_chain.invoke({"idea": x}),
+        name="Project Manager",
+        description="Use to turn a product idea into detailed requirements for a developer. The input to this tool should be the idea." 
+    )

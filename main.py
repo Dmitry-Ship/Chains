@@ -1,17 +1,22 @@
-from utils.conversiation import conversation
-from utils.rag import rag_chain
-from agents import reasearcher_agent, story_teller_agent
+from utils.conversiation import create_conversation_chain
+from utils.rag import create_rag_chain
+from agents import create_researcher_agent
+from llm import get_llm
 
-# conversation.run(input="what is my name?")
-# conversation.run(input="my name Dima")
-# conversation.run(input="what is my name?")
+
+# import langchain 
+# langchain.debug = True
+
+llm = get_llm()
+conversation_chain = create_conversation_chain(llm)
+rag_chain = create_rag_chain(llm)
+researcher_agent = create_researcher_agent(llm)
 
 while True:
     query = input("\nUser: ")
-    # rag_chain.invoke({
-    #     "question": query, 
-    #     "system_message": "Act like Senkovi" 
-    # })
-    # story_teller_agent.invoke(query) 
-    # reasearcher_agent.invoke(query)
-    # conversation.run(input=query)
+    rag_chain.invoke({
+        "question": query, 
+        "system_message": "Always answer with a numbered list of facts" 
+    })
+    # researcher_agent.run(query)
+    # conversation_chain.run(input=query)
