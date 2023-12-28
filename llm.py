@@ -23,13 +23,13 @@ def get_llm():
             return LlamaCpp(
                 model_path=LLAMACPP_MODEL_PATH,
                 n_gpu_layers=1,
-                n_batch=512,
+                n_batch=2024,
                 n_ctx=7096,
                 max_tokens=-1,
                 f16_kv=True,
                 temperature=0.0,
                 callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
                 verbose=True,
-                # stop=["Human:"]
+                stop=["Human:"]
                 # model_kwargs={'instruct': True, "interactive": True}
             )

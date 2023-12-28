@@ -87,6 +87,7 @@ multiprocess==0.70.15
 mypy-extensions==1.0.0
 networkx==3.2.1
 nltk==3.8.1
+numexpr==2.8.8
 numpy==1.26.2
 oauthlib==3.2.2
 omegaconf==2.3.0
