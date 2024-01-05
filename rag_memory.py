@@ -1,8 +1,7 @@
 from utils.rag import create_rag_chain_with_memory, retriever
-from llm import get_llm
+from utils.llm import llm
 from langchain_core.messages import HumanMessage, AIMessage
 
-llm = get_llm()
 rag_chain_with_memory = create_rag_chain_with_memory(llm, retriever)
 chat_history = []
 

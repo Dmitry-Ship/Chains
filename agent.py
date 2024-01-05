@@ -1,16 +1,13 @@
 from langchain.agents import initialize_agent, AgentType
-import tools
-from llm import get_llm
+import utils.tools as tools
+from utils.llm import llm
 from utils.rag import retriever
-
-llm = get_llm()
+from langchain.tools import DuckDuckGoSearchResults, ShellTool
 
 researcher_agent = initialize_agent(
     tools=[
-        tools.shell_tool,
-        tools.ddg_search, 
-        tools.web_fetcher,
-        tools.create_pm(llm),
+        DuckDuckGoSearchResults(), 
+        ShellTool(),
         tools.wikipedia_search,
         tools.create_knowledge_base(llm, retriever), 
         tools.create_llm_tool(llm),

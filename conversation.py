@@ -1,11 +1,18 @@
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory, ConversationSummaryBufferMemory, ConversationSummaryMemory, ConversationBufferMemory
-from llm import get_llm
+from langchain.prompts import PromptTemplate
+from utils.llm import llm
 
-llm = get_llm()
+DEFAULT_TEMPLATE = """Write a response of the AI. If the AI does not know the answer to a question, it truthfully says it does not know. 
+
+Current conversation:
+{history}
+Human: {input}
+AI:"""
+PROMPT = PromptTemplate.from_template(DEFAULT_TEMPLATE)
 
 conversation_chain = ConversationChain(
-    # prompt=PromptTemplate.from_template(template=template),
+    prompt=PROMPT,
     llm=llm, 
     memory=ConversationSummaryBufferMemory(llm=llm), 
     verbose=True,
@@ -14,3 +21,4 @@ conversation_chain = ConversationChain(
 while True:
     query = input("\nUser: ")
     conversation_chain.run(input=query)
+
