@@ -1,6 +1,5 @@
 from langchain.prompts import PromptTemplate
 from langchain.utilities import SQLDatabase
-from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 import os
 from dotenv import load_dotenv
@@ -47,8 +46,9 @@ full_chain = (
     | llm
 )
 
-while True:
-    query = input("\n🤪: ")
-    full_chain.invoke({
-        "question": query, 
-    })
+if __name__ == "__main__":
+    while True:
+        query = input("\n🤪: ")
+        full_chain.invoke({
+            "question": query, 
+        })

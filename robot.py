@@ -29,9 +29,9 @@ You are a robot navigating a {size}x{size} grid of cells.
 ### Instruction ###
 find a cell with symbol {target}. 
 Follow this patter:
-Observation: I am at [0,0], it has symbol 0.
-Thought: I need to check the cell [0,1] to see if it has the target symbol.
-Move: [0,1]                                                              
+Observation: the result of the previous move.
+Thought: you should think about what to do next.
+Move: the next cell to move to, for example [0,1]                                                              
 
 {history}
 """)
@@ -41,15 +41,17 @@ def extract_numbers(string):
     numbers = re.findall(r'\d+', x[1])
     return [int(number) for number in numbers]
 
-target = 0
+target = 17
+start = [5, 5]
+
 history = f"""
-Observation: I am at [3,5], it has symbol 8.
-Thought: My target is {target}, and dont so I need to check another cell that is most likely to have the symbol.
+Observation: I don't have any observations about cells yet.
+Thought: My target is {target}, I don't have observations about other cells yet, so I'll move to [{start[0]}, {start[1]}].
 """
 
 while True:
     prompt = prompt_template.format(size=10, target=target, history=history)
-    output = llm(prompt)
+    output = llm.invoke(prompt, stop=["Observation:"])
     history += f"\n{output.strip()}"
     coordinates = extract_numbers(output)
     symbol = check_cell(coordinates[0], coordinates[1])

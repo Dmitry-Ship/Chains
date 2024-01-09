@@ -21,12 +21,6 @@ write docs to database
 python ./utils/rag.py <path to docs>
 ```
 
-run bot without memory
-
-```bash
-python ./rag.py
-```
-
 run bot with memory
 
 ```bash
@@ -36,5 +30,5 @@ python ./rag_memory.py
 ### Agent
 
 ```bash
-python ./agent.py
+python ./researcher_agent.py
 ```

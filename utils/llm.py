@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 def get_llm():
-    MODEL = os.environ.get('MODEL')
+    MODEL = os.environ.get('MODELs')
     match MODEL:
         case "ollama":
             OLLAMA_MODEL = os.environ.get('OLLAMA_MODEL')
@@ -16,6 +16,7 @@ def get_llm():
                 callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
                 temperature=0.0,
                 verbose=True,
+                # stop=["Human:", "Explanation:"] 
             )
         case "llamacpp" |  _:
             LLAMACPP_MODEL_PATH = os.environ.get('LLAMACPP_MODEL_PATH')
@@ -30,8 +31,34 @@ def get_llm():
                 temperature=0.0,
                 callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
                 verbose=True,
-                stop=["Human:", "Observation:", "Explanation:"]
-                # model_kwargs={'instruct': True, "interactive": True}
+                # stop=["Human:", "Observation:", "Explanation:"]
             )
 
 llm = get_llm()
+
+
+# from langchain.prompts import PromptTemplate
+# from langchain_core.runnables import RunnablePassthrough
+
+# key_points_prompt = PromptTemplate.from_template("""
+# You are a movie script writer. Write key plot points and themes that sequel of the movie {movie} must have. Don't write the actual script.
+# Plot points and themes:
+# """)
+
+# script_prompt = PromptTemplate.from_template("""
+# You are a movie script writer. Write a script for the sequel of the movie {movie}. The script must include the following plot points.
+# Plot points: {plot_points}
+
+# Script:
+# """)
+
+# sequel_chain = {
+#     "movie": RunnablePassthrough(),
+#     "plot_points": key_points_prompt | llm,
+# } | script_prompt | llm
+
+# # sequel_chain.invoke({
+# #     "movie": "inception"
+# # })
+
+

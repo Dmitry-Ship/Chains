@@ -1,23 +1,12 @@
 from langchain.tools import Tool, WikipediaQueryRun
-from langchain.utilities import WikipediaAPIWrapper
+from langchain_community.utilities import WikipediaAPIWrapper
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMMathChain
+from langchain.agents import Tool
 from langchain_experimental.utilities import PythonREPL
 from utils.story import tex2speech, img2text
-from utils.rag import create_rag_chain
-
-
-def create_llm_tool(llm):
-    llm_chain = (
-        PromptTemplate.from_template("{input}")
-        | llm
-    )
-
-    return Tool(
-        func=lambda x: llm_chain.invoke({"input": x}),
-        name="LLM",
-        description="Use to for general purpose queries and logic"
-    )
+from rag_memory import create_rag_chain_with_memory
+from sql import full_chain
 
 speaker = Tool(
     func=tex2speech,
@@ -31,23 +20,15 @@ image_describer = Tool(
     description="Describes an image from URL. Takes a single URL as input."
 )
 
-wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
-wikipedia_search = Tool(
-    func=wikipedia.run,
-    name="Wikipedia Search",
-    description="Use to request biographies or historical moments."
-)
-
 def create_knowledge_base(llm, retriever):
     return Tool(
-        func=lambda x: create_rag_chain(llm, retriever).invoke({
+        func=lambda x: create_rag_chain_with_memory(llm, retriever).invoke({
             "question": x, 
             "system_message": "" 
         }),
         name="Book Children of Ruin",
         description="Use it for queries related to the book Children of Ruin."
     )
-
 
 def create_pm(llm):
     pm_chain = (
@@ -58,11 +39,25 @@ def create_pm(llm):
         """)
         | llm
     )
-    return Tool(
-        func=lambda x: pm_chain.invoke({"idea": x}),
-        name="Project Manager",
-        description="Turns a product idea into detailed technical requirements for a developer."
+
+    overall_chain = (
+        {
+            "requirements": pm_chain,
+        }
+        | PromptTemplate.from_template("""
+        You are a python developer. Write code that meets the following requirements. The response must be a single code block.
+        requirements: {requirements}
+        code:
+        """)
+        | llm 
     )
+
+    return Tool(
+        func=lambda x: overall_chain.invoke({"idea": x}),
+        name="Project Manager",
+        description="Use when you want to develop in IT product. This tool turn the idea into detailed technical requirements for a developer."
+    )
+
 
 def create_math(llm):
     llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=True)
@@ -79,3 +74,9 @@ repl_tool = Tool(
     description="A Python shell. Use this to execute python commands. Input should be a valid python command. If you want to see the output of a value, you should print it out with `print(...)`.",
     func=python_repl.run,
 )
+
+sql_tool = Tool(
+        func=lambda x: full_chain.invoke({"query": x}),
+        name="SQL",
+        description="Use when you need to access databases"
+    )

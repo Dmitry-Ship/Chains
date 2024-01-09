@@ -1,5 +1,5 @@
 from langchain.chains import ConversationChain
-from langchain.memory import ConversationKGMemory, ConversationSummaryBufferMemory, ConversationSummaryMemory, ConversationBufferMemory
+from langchain.memory import  ConversationSummaryBufferMemory
 from langchain.prompts import PromptTemplate
 from utils.llm import llm
 
@@ -9,16 +9,16 @@ Current conversation:
 {history}
 Human: {input}
 AI:"""
-PROMPT = PromptTemplate.from_template(DEFAULT_TEMPLATE)
 
 conversation_chain = ConversationChain(
-    prompt=PROMPT,
-    llm=llm, 
+    prompt=PromptTemplate.from_template(DEFAULT_TEMPLATE),
     memory=ConversationSummaryBufferMemory(llm=llm), 
+    llm=llm, 
     verbose=True,
 )
 
-while True:
-    query = input("\nUser: ")
-    conversation_chain.run(input=query)
+if __name__ == "__main__":
+    while True:
+        query = input("\nHuman: ")
+        conversation_chain.run(input=query)
 

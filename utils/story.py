@@ -3,6 +3,9 @@ from transformers import pipeline, AutoProcessor, BarkModel
 from datasets import load_dataset
 import scipy
 import soundfile as sf
+import nltk 
+import numpy as np
+import time
 
 def img2text(url):
     image_recognizer = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
@@ -24,19 +27,28 @@ def tex2speech_old(text):
     return f'wrote speech to file {path}'
 
 def tex2speech(text):
-    processor = AutoProcessor.from_pretrained("suno/bark")
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = BarkModel.from_pretrained("suno/bark").to(device)
+    processor = AutoProcessor.from_pretrained("suno/bark-small")
+    model = BarkModel.from_pretrained("suno/bark-small")
+
     voice_preset = "v2/en_speaker_9"
 
-    inputs = processor(text, voice_preset=voice_preset)
-    print('generating....')
-    audio_array = model.generate(**inputs, pad_token_id=processor.tokenizer.pad_token_id)
-    print('squeezing....')
-    audio_array = audio_array.cpu().numpy().squeeze()
+    sentences = nltk.sent_tokenize(text.replace("\n", " ").strip())
+    silence = np.zeros(int(0.25 * model.generation_config.sample_rate))  # quarter second of silence
 
-    sample_rate = model.generation_config.sample_rate
-    print('writing file....')
-    scipy.io.wavfile.write("speech-small.wav", rate=sample_rate, data=audio_array)
+    pieces = []
+    for i, sentence in enumerate(sentences):
+        inputs = processor(sentence, voice_preset=voice_preset)
+        print(f'generating audio for sentence {i + 1}/{len(sentences)} ...')
+        audio_array = model.generate(**inputs, pad_token_id=processor.tokenizer.pad_token_id)
+        pieces += [audio_array.cpu().numpy().squeeze()]
 
+    curr_time = round(time.time()* 1000)
+    path = f"speech-{curr_time}.wav"
+    print(f'writing file {path}...') 
+
+    scipy.io.wavfile.write(
+        path, 
+        rate=model.generation_config.sample_rate, 
+        data=np.concatenate(pieces)
+    )
 
