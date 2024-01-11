@@ -10,7 +10,7 @@ pip install -r ./requirements.txt
 ### Chatbot
 
 ```bash
-python -m chains.coversation
+python -m chains.conversation
 ```
 
 ### RAG

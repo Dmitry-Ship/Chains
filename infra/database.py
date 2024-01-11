@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from langchain.utilities import SQLDatabase
+from langchain_community.utilities import SQLDatabase
 
 load_dotenv(override=True)
 

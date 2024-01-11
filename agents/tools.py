@@ -9,6 +9,3 @@ def create_math_tool(llm):
         name="Calculator",
         description="Useful for when you are asked to perform math calculations"
     )
-
-
-
