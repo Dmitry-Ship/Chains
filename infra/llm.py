@@ -1,6 +1,6 @@
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.llms import LlamaCpp
+from langchain_community.llms import LlamaCpp
 import os
 from dotenv import load_dotenv
 

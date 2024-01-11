@@ -1,5 +1,5 @@
 from langchain.agents import create_react_agent, AgentExecutor
-from langchain.tools import ShellTool
+from langchain_community.tools import ShellTool
 from langchain import hub
 from infra.llm import llm
 
@@ -8,7 +8,6 @@ tools = [
 ]
 
 prompt = hub.pull("hwchase17/react")
-print(prompt)
 agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
 agent_executor = AgentExecutor(
     agent=agent, 

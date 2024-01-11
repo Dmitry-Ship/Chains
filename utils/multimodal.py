@@ -22,10 +22,11 @@ def tex2speech_old(text):
     return f'wrote speech to file {path}'
 
 def tex2speech(text):
+    voice_preset = "v2/en_speaker_9"
+    nltk.download('punkt')
+
     processor = AutoProcessor.from_pretrained("suno/bark-small")
     model = BarkModel.from_pretrained("suno/bark-small")
-
-    voice_preset = "v2/en_speaker_9"
 
     sentences = nltk.sent_tokenize(text.replace("\n", " ").strip())
     silence = np.zeros(int(0.25 * model.generation_config.sample_rate))  # quarter second of silence
@@ -46,4 +47,3 @@ def tex2speech(text):
         rate=model.generation_config.sample_rate, 
         data=np.concatenate(pieces)
     )
-

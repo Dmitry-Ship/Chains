@@ -6,5 +6,5 @@ conversation_chain = ConversationChain(llm=llm)
 if __name__ == "__main__":
     while True:
         query = input("\nHuman: ")
-        conversation_chain.run(input=query, stop=["Human:"])
+        conversation_chain.invoke({ "input": query, "stop": ['Human:'] })
 

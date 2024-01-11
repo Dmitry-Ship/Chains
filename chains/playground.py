@@ -2,7 +2,6 @@ from langchain.prompts import PromptTemplate
 from infra.llm import llm
 
 
-
 # from langchain.prompts import PromptTemplate
 # from langchain_core.runnables import RunnablePassthrough
 
