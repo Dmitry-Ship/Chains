@@ -53,6 +53,7 @@ langchain==0.0.354
 langchain-community==0.0.10
 langchain-core==0.1.8
 langchain-experimental==0.0.47
+langchainhub==0.1.14
 langsmith==0.0.78
 llama_cpp_python==0.2.27
 lxml==4.9.4
@@ -126,16 +127,16 @@ torchvision==0.16.2
 tqdm==4.66.1
 transformers==4.36.2
 typer==0.9.0
+types-requests==2.31.0.20240106
 typing-inspect==0.9.0
 typing_extensions==4.9.0
 tzdata==2023.3
-urllib3==1.26.18
+urllib3==2.1.0
 uvicorn==0.25.0
 uvloop==0.19.0
 watchfiles==0.21.0
 websocket-client==1.7.0
 websockets==12.0
-wikipedia==1.4.0
 wrapt==1.16.0
 xxhash==3.4.1
 yarl==1.9.4

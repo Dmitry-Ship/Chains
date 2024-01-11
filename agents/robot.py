@@ -1,6 +1,6 @@
 import re
 from langchain.prompts import PromptTemplate
-from utils.llm import llm
+from infra.llm import llm
 
 ten_by_ten_grid = [
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],

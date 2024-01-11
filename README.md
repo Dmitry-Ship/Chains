@@ -7,28 +7,38 @@ python3.11 -m venv .venv && source .venv/bin/activate && \
 pip install -r ./requirements.txt
 ```
 
-### Chatbot with memory
+### Chatbot
 
 ```bash
-python ./coversation.py
+python -m chains.coversation
 ```
 
-### Chatbot with RAG
+### RAG
 
 write docs to database
 
 ```bash
-python ./utils/rag.py <path to docs>
+python ./infra/vectore_store.py <path to docs>
+```
+
+chat
+
+```bash
+python -m chains.rag
 ```
 
 run bot with memory
 
+### Agents
+
+researcher
+
 ```bash
-python ./rag_memory.py
+python -m agents.researcher
 ```
 
-### Agent
+developer
 
 ```bash
-python ./researcher_agent.py
+python -m agents.developer
 ```

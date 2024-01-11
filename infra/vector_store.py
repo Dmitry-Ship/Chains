@@ -12,8 +12,7 @@ load_dotenv()
 CHROMA_PATH = "chroma"
 embeddings = HuggingFaceEmbeddings()
 vector_store = Chroma(embedding_function=embeddings, persist_directory=CHROMA_PATH)
-retriever = vector_store.as_retriever(search_type="mmr")
-
+retriever = vector_store.as_retriever()
 
 def get_chunks_from_docs(path):
     loader = DirectoryLoader(path, glob="*.pdf", show_progress=True)

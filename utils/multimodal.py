@@ -7,11 +7,6 @@ import nltk
 import numpy as np
 import time
 
-def img2text(url):
-    image_recognizer = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
-
-    return image_recognizer(url)[0]['generated_text']
-
 def tex2speech_old(text):
     synthesiser = pipeline("text-to-speech", "microsoft/speecht5_tts")
 
