@@ -1,4 +1,4 @@
-from infra.vector_store import retriever
+from infra.docs_store import vertor_store
 from infra.llm import llm
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -9,7 +9,7 @@ def format_docs(docs):
 
 rag_prompt = hub.pull("rlm/rag-prompt")
 qa_chain = (
-    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    {"context": vertor_store.get_retriever() | format_docs, "question": RunnablePassthrough()}
     | rag_prompt
     | llm
     | StrOutputParser()

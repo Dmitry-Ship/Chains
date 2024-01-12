@@ -18,13 +18,13 @@ python -m chains.conversation
 write docs to database
 
 ```bash
-python ./infra/vectore_store.py <path to docs>
+python ./infra/docs_store.py <path to docs>
 ```
 
 chat
 
 ```bash
-python -m chains.rag
+python -m chains.docs_rag
 ```
 
 run bot with memory

@@ -160,5 +160,5 @@ cython_debug/
 #.idea/
 
 speech-*
-chroma
+chroma*
 .DS_Store

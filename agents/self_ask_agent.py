@@ -18,6 +18,6 @@ agent_executor = AgentExecutor(
 
 while True:
     query = input("\nTask: ")
-    agent_executor.invoke({"input": query})
+    agent_executor.invoke({"input": query, 'stop': ["Explanation:"]})
 
 
