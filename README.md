@@ -18,7 +18,7 @@ python -m chains.conversation
 write docs to database
 
 ```bash
-python ./infra/docs_store.py <path to docs>
+python python -m infra.docs_store <path to docs>
 ```
 
 chat
