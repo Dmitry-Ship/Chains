@@ -13,7 +13,7 @@ agent_executor = AgentExecutor(
     tools=tools, 
     handle_parsing_errors=True, 
     max_iterations=10,
-    verbose=True,
+    verbose=False,
 )
 
 while True:

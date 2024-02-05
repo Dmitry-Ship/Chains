@@ -15,7 +15,7 @@ agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
 agent_executor = AgentExecutor(
     agent=agent, 
     tools=tools, 
-    verbose=True,
+    verbose=False,
     handle_parsing_errors=True, 
     max_iterations=10
 )

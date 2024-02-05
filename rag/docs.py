@@ -1,14 +1,13 @@
 from infra.llm import llm
-from infra.docs_store import vertor_store
-from langchain.prompts.chat import ChatPromptTemplate
+from .docs_store import vector_store
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain import hub
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.prompts.chat import ChatPromptTemplate, HumanMessagePromptTemplate
+from langchain import hub
 
 rephrase_prompt = hub.pull("langchain-ai/chat-langchain-rephrase")
-rephrase_chain = create_history_aware_retriever(llm, vertor_store.get_retriever(), rephrase_prompt)
+rephrase_chain = create_history_aware_retriever(llm, vector_store.get_retriever(), rephrase_prompt)
 
 prompt = ChatPromptTemplate.from_messages([
     HumanMessagePromptTemplate.from_template("""

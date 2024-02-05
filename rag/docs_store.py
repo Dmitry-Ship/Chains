@@ -20,9 +20,9 @@ def get_chunks_from_docs(path):
 
     return  text_splitter.split_documents(documents)
 
-vertor_store = VectorStore(embeddings, "chroma")
+vector_store = VectorStore(embeddings, "chroma")
 
 if __name__ == "__main__":
     path = sys.argv[1]
     chunks = get_chunks_from_docs(path)
-    vertor_store.store(chunks) 
+    vector_store.store(chunks) 
