@@ -22,19 +22,18 @@ MODEL_PATH = os.environ.get('MODEL_PATH')
 # )
 
 
-llm = OpenAI(
-    temperature=0.0, 
-    verbose=False, 
-    streaming=True,
-    max_tokens=-1,
-    callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
-)
-
-# llm = Ollama(
-#     model='mistral:latest',
+# llm = OpenAI(
 #     temperature=0.0, 
 #     verbose=False, 
-#     # streaming=True,
-#     # max_tokens=-1,
+#     streaming=True,
+#     max_tokens=-1,
 #     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
 # )
+
+OLLAMA_MODEL = os.environ.get('OLLAMA_MODEL')
+llm = Ollama(
+    model=OLLAMA_MODEL,
+    temperature=0.0, 
+    verbose=False, 
+    callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
+)
