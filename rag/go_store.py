@@ -13,6 +13,16 @@ def get_chunks_from_code(path):
     loader = GenericLoader.from_filesystem(
         path,
         glob="**/*",
+        exclude=[
+            '*_test.go', 
+            '*_gen.go', 
+            '*_generated.go',
+            '*layer.go', 
+            '*_tests/*', 
+            '*/opentracing/*', 
+            '*/channels/store/*', 
+            "mocks/*",
+        ],
         suffixes=[".go"],
         parser=LanguageParser(),
     )

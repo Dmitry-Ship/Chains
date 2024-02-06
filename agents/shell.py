@@ -1,16 +1,13 @@
 from langchain.agents import create_react_agent, AgentExecutor
-from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
+from langchain_community.tools import ShellTool
 from langchain import hub
-from .tools import create_math_tool
 from infra.llm import llm
 
-search = DuckDuckGoSearchRun(max_results=1)
 tools = [
-    search, 
-    create_math_tool(llm),
+    ShellTool(),
 ]
 
-prompt = hub.pull("hwchase17/react")
+prompt = hub.pull("hwchase17/react-chat")
 agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
 agent_executor = AgentExecutor(
     agent=agent, 
@@ -20,8 +17,8 @@ agent_executor = AgentExecutor(
     max_iterations=10
 )
 
+chat_history = ''
 while True:
     query = input("\nTask: ")
-    agent_executor.invoke({"input": query})
-
-
+    result = agent_executor.invoke({"input": query, 'chat_history': chat_history})
+    chat_history += f'Human: {query}\nAI: {result["output"]}\n'

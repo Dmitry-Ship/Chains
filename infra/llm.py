@@ -1,6 +1,6 @@
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-# from langchain_community.llms import LlamaCpp
+from langchain_community.llms import LlamaCpp, Ollama
 from langchain_openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -29,3 +29,12 @@ llm = OpenAI(
     max_tokens=-1,
     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
 )
+
+# llm = Ollama(
+#     model='mistral:latest',
+#     temperature=0.0, 
+#     verbose=False, 
+#     # streaming=True,
+#     # max_tokens=-1,
+#     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
+# )

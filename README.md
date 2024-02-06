@@ -25,14 +25,14 @@ run bot with memory
 
 ### Agents
 
-researcher
+search
 
 ```bash
-python -m agents.researcher
+python -m agents.search
 ```
 
-developer
+shell
 
 ```bash
-python -m agents.developer
+python -m agents.shell
 ```
