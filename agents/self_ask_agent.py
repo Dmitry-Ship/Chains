@@ -4,7 +4,7 @@ from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
 from infra.llm import llm
 
 tools = [
-    DuckDuckGoSearchRun(max_results=1, name="Intermediate Answer"), 
+    DuckDuckGoSearchRun(name="Intermediate Answer"), 
 ]
 
 prompt = hub.pull("hwchase17/self-ask-with-search")

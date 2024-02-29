@@ -4,7 +4,7 @@ from langchain import hub
 from .tools import create_math_tool
 from infra.llm import llm
 
-search = DuckDuckGoSearchRun(max_results=1)
+search = DuckDuckGoSearchRun()
 tools = [
     search, 
     create_math_tool(llm),

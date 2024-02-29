@@ -2,7 +2,7 @@ from infra.llm import llm
 from .docs_store import vector_store
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.memory import ConversationSummaryBufferMemory
+from langchain.memory import ConversationBufferMemory
 from langchain.prompts.chat import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain import hub
 
@@ -20,7 +20,7 @@ prompt = ChatPromptTemplate.from_messages([
 document_chain = create_stuff_documents_chain(llm, prompt)
 
 retrieval_chain = create_retrieval_chain(rephrase_chain, document_chain)
-memory = ConversationSummaryBufferMemory(llm=llm)
+memory = ConversationBufferMemory()
 
 if __name__ == "__main__":
     while True:
