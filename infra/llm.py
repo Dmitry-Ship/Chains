@@ -10,8 +10,9 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 llm = ChatOpenAI(
     temperature=0.0, 
     verbose=True, 
-    model=OPENAI_MODEL,
+    # model=OPENAI_MODEL,
     streaming=True,
     max_tokens=-1,
     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
 )
+

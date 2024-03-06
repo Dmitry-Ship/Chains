@@ -1,6 +1,6 @@
 from infra.llm import llm
 from .docs_store import vector_store
-from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain, ConversationChain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts.chat import ChatPromptTemplate, HumanMessagePromptTemplate

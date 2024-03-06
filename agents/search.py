@@ -1,13 +1,19 @@
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
 from langchain import hub
-from .tools import create_math_tool
+from langchain.tools import Tool
+from langchain.chains import LLMMathChain
 from infra.llm import llm
 
 search = DuckDuckGoSearchRun()
+llm_math_chain = LLMMathChain.from_llm(llm=llm)
 tools = [
     search, 
-    create_math_tool(llm),
+    Tool(
+        func=llm_math_chain.run,
+        name="Calculator",
+        description="Useful for when you are asked to perform math calculations"
+    ),
 ]
 
 prompt = hub.pull("hwchase17/react-chat")
