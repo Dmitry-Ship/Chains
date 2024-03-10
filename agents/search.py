@@ -1,19 +1,17 @@
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain import hub
-from langchain.tools import Tool
-from langchain.chains import LLMMathChain
+from agents.tools import calculator, fetch_web_page
 from infra.llm import llm
 
 search = DuckDuckGoSearchRun()
-llm_math_chain = LLMMathChain.from_llm(llm=llm)
+
 tools = [
     search, 
-    Tool(
-        func=llm_math_chain.run,
-        name="Calculator",
-        description="Useful for when you are asked to perform math calculations"
-    ),
+    calculator,
+    fetch_web_page,
 ]
 
 prompt = hub.pull("hwchase17/react-chat")
@@ -26,10 +24,19 @@ agent_executor = AgentExecutor(
     max_iterations=10
 )
 
-chat_history = ''
+message_history = ChatMessageHistory()
+agent_with_chat_history = RunnableWithMessageHistory(
+    agent_executor,
+    lambda session_id: message_history,
+    input_messages_key="input",
+    history_messages_key="chat_history",
+)
 while True:
     query = input("\nTask: ")
-    result = agent_executor.invoke({"input": query, 'chat_history': chat_history})
-    chat_history += f'Human: {query}\nAI: {result["output"]}\n'
+    agent_with_chat_history.invoke(
+        {"input": query},
+        config={"configurable": {"session_id": "<foo>"}},
+    )
+
 
 

@@ -7,7 +7,7 @@ import os
 load_dotenv(override=True)
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
-llm = ChatOpenAI(
+llm = OpenAI(
     temperature=0.0, 
     verbose=True, 
     # model=OPENAI_MODEL,
