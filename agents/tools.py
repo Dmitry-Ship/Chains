@@ -8,7 +8,7 @@ import soundfile as sf
 import nltk 
 import numpy as np
 import time
-from langchain.tools import HumanInputRun, Tool, tool
+from langchain_community.tools import HumanInputRun, Tool, tool
 from langchain.chains import LLMMathChain
 from infra.llm import llm
 
